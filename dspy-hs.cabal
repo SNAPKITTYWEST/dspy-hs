@@ -1,0 +1,66 @@
+cabal-version: 3.0
+name: dspy-hs
+version: 0.1.0.0
+synopsis: Typed, verified DSPy reimplementation in Haskell
+build-type: Simple
+
+common warnings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates
+               -Wincomplete-uni-patterns -Wredundant-constraints
+
+library
+  import: warnings
+  hs-source-dirs: src
+  exposed-modules: DSPy.Core
+                    DSPy.Hash
+                    DSPy.Trace
+                    DSPy.Prompt
+                    DSPy.Example
+                    DSPy.Metric
+                    DSPy.Runtime
+                    DSPy.Predictor
+                    DSPy.Module
+                    DSPy.Program
+                    DSPy.Optimizer
+                    DSPy.Compiler
+                    DSPy.ReAct
+                    DSPy.Retrieve
+                    DSPy.Backend.Local
+  default-language: Haskell2010
+  default-extensions:
+    GADTs DataKinds TypeFamilies TypeApplications TypeOperators
+    KindSignatures StandaloneKindSignatures RankNTypes
+    ScopedTypeVariables DerivingStrategies GeneralizedNewtypeDeriving
+    DeriveGeneric DeriveAnyClass MultiParamTypeClasses
+    FlexibleInstances FlexibleContexts FunctionalDependencies
+    ConstraintKinds ExistentialQuantification OverloadedStrings
+    LambdaCase RecordWildCards StrictData
+  build-depends: base >=4.14 && <5
+                  , aeson
+                  , text
+                  , bytestring
+                  , containers
+                  , mtl
+                  , time
+                  , cryptohash-sha256
+                  , base16-bytestring
+                  , directory
+                  , filepath
+
+executable dspy-hs
+  import: warnings
+  hs-source-dirs: app
+  main-is: Main.hs
+  default-language: Haskell2010
+  default-extensions: OverloadedStrings LambdaCase RecordWildCards
+  build-depends: base, dspy-hs, text, aeson
+  ghc-options: -threaded -rtsopts
+
+test-suite dspy-hs-test
+  import: warnings
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Spec.hs
+  default-language: Haskell2010
+  default-extensions: OverloadedStrings LambdaCase RecordWildCards
+  build-depends: base, dspy-hs, text, aeson, containers
